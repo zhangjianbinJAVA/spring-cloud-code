@@ -1,4 +1,6 @@
 FROM registry.cn-hangzhou.aliyuncs.com/springcloud-cn/java:8u172-jre-alpine
+
+## JAR_FILE  ===>> ${project.build.finalName}.jar
 ARG JAR_FILE
 ENV PROFILE default
 ADD target/${JAR_FILE} /opt/app.jar

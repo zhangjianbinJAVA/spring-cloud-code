@@ -8,16 +8,19 @@ spring:
     enabled: true
     atomikos:
       datasource:
+        # order　数据源 数据库为 dborder
         order:
           xa-properties.url: jdbc:h2:mem:dborder
           xa-properties.user: sa
           xa-properties.password:
+          # 数据库支持XA 事务的数据源
           xa-data-source-class-name: org.h2.jdbcx.JdbcDataSource
           unique-resource-name: order
           max-pool-size: 10
           min-pool-size: 1
           max-lifetime: 10000
           borrow-connection-timeout: 10000
+        #log 数据源 数据库为 dblog
         log:
           xa-properties.url: jdbc:h2:mem:dblog
           xa-properties.user: sa
@@ -33,3 +36,7 @@ management:
     web:
       exposure:
         include: '*'
+
+logging:
+  level:
+    org.h2.message: trace

@@ -28,6 +28,9 @@ public class GatewayRateLimitFilterByCpu implements GatewayFilter, Ordered {
 
     private static final String METRIC_NAME = "system.cpu.usage";
 
+    /**
+     * cpu 最大占用率为 50%
+     */
     private static final double MAX_USAGE = 0.50D;
 
     @Override

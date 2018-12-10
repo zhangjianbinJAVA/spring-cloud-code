@@ -19,18 +19,24 @@ package cn.springcloud.grpcsimpleserver;
 import cn.springcloud.grpcsimpleserver.servcie.HelloService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+
 import java.io.IOException;
 
 
 public class MyGrpcServer {
     static public void main(String[] args) throws IOException, InterruptedException {
-        Server server = ServerBuilder.forPort( 8082 )
-                .addService( new HelloService() )
+
+        //gRPCServer 监听的端口
+        Server server = ServerBuilder.forPort(8082)
+
+                // HelloService 注册到该 gRPCServer中
+                .addService(new HelloService())
                 .build();
 
-        System.out.println( "Starting server..." );
+        System.out.println("Starting server...");
+        // 启动gRPCServer
         server.start();
-        System.out.println( "Server started!" );
+        System.out.println("Server started!");
         server.awaitTermination();
     }
 

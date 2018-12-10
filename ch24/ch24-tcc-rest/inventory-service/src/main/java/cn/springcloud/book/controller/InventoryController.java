@@ -36,6 +36,12 @@ public class InventoryController extends TccParticipantController<FrozeRequest> 
         return "inventory-service";
     }
 
+    /**
+     *
+     * @param txId
+     * @param body 表示一个冻结商品库存的请求
+     * @return
+     */
     @Override
     public ResponseEntity executeTry(String txId, FrozeRequest body) {
         Inventory inventory = inventoryDao.findByProductCode(body.getProductCode());

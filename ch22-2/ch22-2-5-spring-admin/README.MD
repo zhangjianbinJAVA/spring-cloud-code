@@ -8,15 +8,22 @@ CONFIG_SERVER_HOST=localhost CONFIG_SERVER_PORT=8888 SERVER_PORT=8002 EUREKA_SER
 ## docker
 ```
 mvn clean package
+
 docker run -p 8002:8080 --rm \
 -e JAVA_OPTS='-server -Xmx1g' \
 -e PROFILE='default' \
 -e SERVER_PORT=8080 \
--e CONFIG_SERVER_HOST=192.168.99.100 \
+-e CONFIG_SERVER_HOST=192.168.179.117 \
 -e CONFIG_SERVER_PORT=8888 \
--e EUREKA_SERVER1_HOST=192.168.99.100 \
+-e EUREKA_SERVER1_HOST=192.168.179.117 \
 -e EUREKA_SERVER1_PORT=8761 \
--e EUREKA_SERVER2_HOST=192.168.99.100 \
+-e EUREKA_SERVER2_HOST=192.168.179.117 \
 -e EUREKA_SERVER2_PORT=8762 \
+--name admin-server \
 registry.cn-hangzhou.aliyuncs.com/springcloud-cn/ch22-2-5-spring-admin:0.0.1-SNAPSHOT
+```
+
+### test
+```
+http://192.168.179.117:8002/
 ```

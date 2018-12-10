@@ -15,3 +15,13 @@ management:
     web:  # http://localhost:8080/actuator/gateway/routes
       exposure:
         include: "*"
+
+# 等价说代码中的写法
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: after_route
+#        uri: http://baidu.com
+#        predicates:
+#        - After=2018-11-08T14:57:34.443+08:00[Asia/Shanghai]

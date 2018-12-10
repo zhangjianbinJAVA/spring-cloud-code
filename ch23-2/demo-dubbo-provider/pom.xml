@@ -25,11 +25,14 @@
     </properties>
 
     <dependencies>
+
+        <!--服务提供者对外的二方库-->
         <dependency>
             <groupId>cn.springcloud.book</groupId>
             <artifactId>demo-dubbo-provider-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>cn.springcloud.dubbo</groupId>
             <artifactId>spring-cloud-dubbo-starter</artifactId>

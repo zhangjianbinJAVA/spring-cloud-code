@@ -11,6 +11,9 @@ import springfox.documentation.swagger.web.*;
 
 import java.util.Optional;
 
+/**
+ * 没有配置 swaggerconfig ,所以需要写 swagger 依赖的端点信息
+ */
 @RestController
 @RequestMapping("/swagger-resources")
 public class SwaggerHandler {

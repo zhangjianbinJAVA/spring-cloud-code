@@ -39,8 +39,9 @@ public class ZuulServerApplication {
             MonitoringHelper.initMocks();
             FilterLoader.getInstance().setCompiler(new GroovyCompiler());
             try {
+                System.out.println("Groovy加载方法配置，20秒自动刷新");
                 FilterFileManager.setFilenameFilter(new GroovyFileFilter());
-                FilterFileManager.init(20, "/Users/Administrator/workspace-scbook/ch8-1/ch8-1-zuul-server/src/main/java/cn/springcloud/book/groovy");
+                FilterFileManager.init(20, "E:\\vip\\groovy\\");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

@@ -25,6 +25,9 @@ public class FrozeRequest {
     @Id
     private String txId;
 
+    /**
+     * 用于 cancel 操作时逻辑删除
+     */
     @Column(name = "deleted")
     private Integer deleted = 0;
 

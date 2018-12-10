@@ -8,6 +8,7 @@ public class RemoteAddrKeyResolver implements KeyResolver {
 
     public static final String BEAN_NAME = "remoteAddrKeyResolver";
 
+
     @Override
     public Mono<String> resolve(ServerWebExchange exchange) {
         return Mono.just(exchange.getRequest().getRemoteAddress().getAddress().getHostAddress());

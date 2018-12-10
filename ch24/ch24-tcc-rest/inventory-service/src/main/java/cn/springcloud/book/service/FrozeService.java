@@ -21,6 +21,12 @@ public class FrozeService {
     @Autowired
     FrozeRequestDao frozeRequestDao;
 
+    /**
+     * 封装了删除冻结请求和减库存的操作
+     *
+     * @param request
+     * @param inventory
+     */
     @Transactional
     public void confirm(FrozeRequest request, Inventory inventory) {
         frozeRequestDao.delete(request);

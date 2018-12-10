@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DemoConsumer {
 
+    // 引用 HelloService 服务
     @Reference
     private HelloService helloService;
 
-    public String callHello(){
+    public String callHello() {
         return helloService.hello();
     }
 }

@@ -11,23 +11,39 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableZuulProxy
+/**
+ *
+ * @EnableOAuth2Sso 启动oauth2.0的单点登录
+ *
+ * 这个注解会帮我们完成跳转到授权服务器
+ */
 @EnableOAuth2Sso
-public class ZuulServerApplication extends WebSecurityConfigurerAdapter{
+public class ZuulServerApplication extends WebSecurityConfigurerAdapter {
 
     public static void main(String[] args) {
         SpringApplication.run(ZuulServerApplication.class, args);
     }
-    
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.authorizeRequests()
-		.antMatchers("/login", "/client/**")
-		.permitAll()
-		.anyRequest()
-		.authenticated()
-		.and()
-		.csrf()
-		.disable();
-	}
+
+    /**
+     * 声明需要鉴权的url信息
+     *
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+
+                // login 和 client 路径放行
+                .antMatchers("/login", "/client/**")
+                .permitAll()
+
+                //其它请求都的需要认证
+                .anyRequest()
+                .authenticated()
+                .and()
+                .csrf()
+                .disable();
+    }
 }

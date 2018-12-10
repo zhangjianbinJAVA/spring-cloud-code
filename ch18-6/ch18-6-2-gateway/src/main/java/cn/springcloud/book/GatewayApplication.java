@@ -9,6 +9,11 @@ import org.springframework.context.annotation.Bean;
 public class GatewayApplication {
 
 
+    /**
+     * key 对应的解析器加载到 spring 容器中
+     *
+     * @return
+     */
     @Bean(name = RemoteAddrKeyResolver.BEAN_NAME)
     public RemoteAddrKeyResolver remoteAddrKeyResolver() {
         return new RemoteAddrKeyResolver();

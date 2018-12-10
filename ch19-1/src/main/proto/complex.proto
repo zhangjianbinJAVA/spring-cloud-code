@@ -1,0 +1,38 @@
+syntax = "proto3";
+option java_package = "cn.springcloud.proto";
+option java_outer_classname = "ComplexModel";
+
+// 引入外部的proto对象
+//import "proto/person.proto";
+
+
+message Complex {
+    //    list 列表
+    repeated string snos = 1;
+
+    //    复杂对象 List
+    repeated Result persons = 2;
+    //    map 类型
+    map<string, Result> map = 3;
+
+    //    enum 枚举
+    Gender gender = 4;
+
+
+    // reserved
+    reserved 12, 15, 9 to 11; // 预留将来使用的 Assigning Tags,
+    reserved "foo", "bar"; // 预留将来使用的 filed name
+
+
+}
+
+message Result {
+    string url = 1;
+    string title = 2;
+    repeated string snippets = 3;
+}
+
+enum Gender {
+    MAN = 0;
+    WOMAN = 1;
+}

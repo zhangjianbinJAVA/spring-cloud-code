@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TokenController {
-	
-	@GetMapping("/getToken/{name}")
-    public String get(@PathVariable("name") String name)  {
+
+    @GetMapping("/getToken/{name}")
+    public String get(@PathVariable("name") String name) {
+        // 生成 jwt token
         return JwtUtil.generateToken(name);
     }
-	
+
 }

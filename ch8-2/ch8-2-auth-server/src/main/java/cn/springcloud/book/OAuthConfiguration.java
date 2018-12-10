@@ -12,37 +12,53 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+/**
+ * 授权服务适配类
+ */
 @Configuration
+/** 启用授权服务器 **/
 @EnableAuthorizationServer
 public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	
-	@Override
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    /**
+     * 指定 客户端id及密钥 等
+     *
+     * @param clients
+     * @throws Exception
+     */
+    @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients
-        .inMemory()
-        .withClient("zuul_server")
-        .secret("secret")
-        .scopes("WRIGTH", "read").autoApprove(true)
-        .authorities("WRIGTH_READ", "WRIGTH_WRITE")
-        .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code");
+                .inMemory()
+                .withClient("zuul_server")
+                .secret("secret")
+                .scopes("WRIGTH", "read").autoApprove(true)
+                .authorities("WRIGTH_READ", "WRIGTH_WRITE")
+                .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code");
     }
-	
-	@Override
+
+    /**
+     * 指定 token 存储为 jwt
+     *
+     * @param endpoints
+     * @throws Exception
+     */
+    @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-        .tokenStore(jwtTokenStore())
-        .tokenEnhancer(jwtTokenConverter())
-        .authenticationManager(authenticationManager);
+                .tokenStore(jwtTokenStore())
+                .tokenEnhancer(jwtTokenConverter())
+                .authenticationManager(authenticationManager);
     }
 
     @Bean
     public TokenStore jwtTokenStore() {
         return new JwtTokenStore(jwtTokenConverter());
     }
-    
+
     @Bean
     protected JwtAccessTokenConverter jwtTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();

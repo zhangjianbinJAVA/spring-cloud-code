@@ -21,8 +21,10 @@ public class OrderService {
     @Autowired
     EventLogDao eventLogDao;
 
-    @Transactional
-    public void newOrder(String userId,String productCode,int quantity){
+    @Transactional // XA 事务管理
+    public void newOrder(String userId, String productCode, int quantity) {
+        // 在 order 库中新增 order 数据,同时也在 log 库中新增 log 记录
+
         UserOrder userOrder = new UserOrder();
         userOrder.setUserId(userId);
         userOrder.setProductCode(productCode);
@@ -36,7 +38,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void newOrderRollback(String userId,String productCode,int quantity){
+    public void newOrderRollback(String userId, String productCode, int quantity) {
         UserOrder userOrder = new UserOrder();
         userOrder.setUserId(userId);
         userOrder.setProductCode(productCode);

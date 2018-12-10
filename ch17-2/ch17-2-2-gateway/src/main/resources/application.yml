@@ -10,3 +10,4 @@ logging:
     reactor.ipc.netty: DEBUG
 
 management.endpoints.web.exposure.include: '*'
+

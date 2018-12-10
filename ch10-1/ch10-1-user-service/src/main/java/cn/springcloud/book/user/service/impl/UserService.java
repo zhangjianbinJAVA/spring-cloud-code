@@ -13,27 +13,30 @@ import cn.springcloud.book.user.service.dataservice.DataService;
 /**
  */
 @Component
-public class UserService implements IUserService{
-	
+public class UserService implements IUserService {
+
     @Autowired
     private DataService dataService;
-    
+
     @Autowired
     private RestTemplate restTemplate;
-    
-	@Override
-	public String getDefaultUser() {
-		return dataService.getDefaultUser();
-	}
 
-	@Override
-	public String getContextUserId() {
-		return dataService.getContextUserId();
-	}
+    @Override
+    public String getDefaultUser() {
+        // feign
+        return dataService.getDefaultUser();
+    }
 
-	@Override
-	public List<String> getProviderData() {
-		List<String> result = restTemplate.getForObject("http://sc-data-service/getProviderData", List.class);
-		return result;
-	}
+    @Override
+    public String getContextUserId() {
+        //feign
+        return dataService.getContextUserId();
+    }
+
+    @Override
+    public List<String> getProviderData() {
+        //resttemplate
+        List<String> result = restTemplate.getForObject("http://sc-data-service/getProviderData", List.class);
+        return result;
+    }
 }

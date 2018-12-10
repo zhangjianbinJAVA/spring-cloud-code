@@ -21,52 +21,62 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+/** 启用资源服务器**/
 @EnableResourceServer
 @RestController
 public class ClientAApplication extends ResourceServerConfigurerAdapter {
-	
+
     public static void main(String[] args) {
         SpringApplication.run(ClientAApplication.class, args);
     }
-    
-	@RequestMapping("/test")
-	public String test(HttpServletRequest request) {
-		System.out.println("----------------header----------------");
-		Enumeration headerNames = request.getHeaderNames();
-		while (headerNames.hasMoreElements()) {
-			String key = (String) headerNames.nextElement();
-			System.out.println(key + ": " + request.getHeader(key));
-		}
-		System.out.println("----------------header----------------");
-		return "hellooooooooooooooo!";
-	}
 
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		http
-		.csrf().disable()
-		.authorizeRequests()
-		.antMatchers("/**").authenticated()
-		.antMatchers(HttpMethod.GET, "/test")
-		.hasAuthority("WRIGTH_READ");
-	}
+    @RequestMapping("/test")
+    public String test(HttpServletRequest request) {
+        System.out.println("----------------header----------------");
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            System.out.println(key + ": " + request.getHeader(key));
+        }
+        System.out.println("----------------header----------------");
+        return "hellooooooooooooooo!";
+    }
 
-	@Override
-	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-		resources
-		.resourceId("WRIGTH")
-		.tokenStore(jwtTokenStore());
-	}
+    /**
+     * 声明需要鉴权的url信息
+     *
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                //所有请求都需要认证
+                .authorizeRequests()
+                .antMatchers("/**").authenticated()
 
-	@Bean
-	protected JwtAccessTokenConverter jwtTokenConverter() {
-		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-		converter.setSigningKey("springcloud123");
-		return converter;
-	}
+                // test 请求具有 读的权限
+                .antMatchers(HttpMethod.GET, "/test")
+                .hasAuthority("WRIGTH_READ");
+    }
 
-	@Bean
-	public TokenStore jwtTokenStore() {
-		return new JwtTokenStore(jwtTokenConverter());
-	}
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources
+                .resourceId("WRIGTH")
+                .tokenStore(jwtTokenStore());
+    }
+
+    @Bean
+    protected JwtAccessTokenConverter jwtTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("springcloud123");
+        return converter;
+    }
+
+    @Bean
+    public TokenStore jwtTokenStore() {
+        return new JwtTokenStore(jwtTokenConverter());
+    }
 }

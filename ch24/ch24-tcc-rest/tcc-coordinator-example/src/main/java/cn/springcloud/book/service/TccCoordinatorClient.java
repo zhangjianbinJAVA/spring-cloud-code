@@ -25,6 +25,7 @@ public class TccCoordinatorClient {
     @Autowired
     RestTemplate restTemplate;
 
+
     public ResponseEntity<String> confirm(Transaction transaction) {
         RequestEntity<Transaction> requestEntity = RequestEntity.put(URI.create(tccCoordinatorUrl + "/confirm"))
                 .contentType(APPLICATION_TCC_JSON)

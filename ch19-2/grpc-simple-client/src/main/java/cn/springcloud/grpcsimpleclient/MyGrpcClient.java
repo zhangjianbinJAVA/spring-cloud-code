@@ -27,25 +27,31 @@ import io.grpc.ManagedChannelBuilder;
  */
 public class MyGrpcClient {
 
-  public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8082)
-        .usePlaintext()
-        .build();
+        // 创建一个连接 gRPCServer 的 Channel
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8082)
+                //表明用纯文本创建连接，默认的情况下，会使用 TLS 安全连接机制
+                .usePlaintext()
+                .build();
 
-    HelloServiceGrpc.HelloServiceBlockingStub stub =
-            HelloServiceGrpc.newBlockingStub(channel);
+        // 根据 该 Channel 创建一个阻塞 的 stub
+        HelloServiceGrpc.HelloServiceBlockingStub stub =
+                HelloServiceGrpc.newBlockingStub(channel);
 
-    HelloResponse helloResponse = stub.hello(
-        HelloRequest.newBuilder()
-            .setName("forezp")
-            .setAge(17)
-            .addHobbies("football").putTags( "how?","wonderful" )
-            .build());
+        // 该 stub 向 gRPCServer 发送一条 HelloRequest 消息，并阻塞线程直到连接到 gRPCServer
+        // 发回的 HelloResponse 响应
+        HelloResponse helloResponse = stub.hello(
+                HelloRequest.newBuilder()
+                        .setName("forezp")
+                        .setAge(17)
+                        .addHobbies("football").putTags("how?", "wonderful")
+                        .build());
 
-    System.out.println(helloResponse);
+        // 打印响应
+        System.out.println(helloResponse);
 
-
-    channel.shutdown();
-  }
+        // 关闭 Channel
+        channel.shutdown();
+    }
 }

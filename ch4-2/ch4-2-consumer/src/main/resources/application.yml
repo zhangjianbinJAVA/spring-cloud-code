@@ -18,3 +18,9 @@ feign:
               min-request-size: 2048 # 配置压缩数据大小的下限
           response:
               enabled: true # 配置响应GZIP压缩
+
+   okhttp:
+     enabled: true
+logging:
+  level:
+    cn.springcloud.book: debug

@@ -1,9 +1,16 @@
+//指定 protocol buffers 的版本
 syntax = "proto3";
+//指定生成的包名
 option java_package = "cn.springcloud.proto";
+//指定生成的类名
 option java_outer_classname = "PersonModel";
 
+//定义消息 message ，相当于一个java 实体
 message Person {
+    //    int32 对就 java 中的 Interger 类型
     int32 id = 1;
     string name = 2;
     string email = 3;
 }
+
+//mvn protobuf:compile 编译后，生成 PersonModel 类，查看 target 包

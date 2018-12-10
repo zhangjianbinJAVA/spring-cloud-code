@@ -6,6 +6,7 @@ spring:
       probability: 1
 server:
   port: 8081
+# gRPC 的 netty 端口
 grpc:
   server:
     port: 0

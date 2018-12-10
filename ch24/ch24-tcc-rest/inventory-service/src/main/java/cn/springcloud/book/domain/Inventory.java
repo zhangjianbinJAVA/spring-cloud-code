@@ -28,6 +28,9 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String productCode;
+    /**
+     * 库存数量
+     */
     private Integer leftNum;
     @Version
     private Long version;

@@ -35,9 +35,11 @@ public class GrayFilter extends ZuulFilter {
 		HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
 		String mark = request.getHeader("gray_mark");
 		if (!StringUtils.isEmpty(mark) && "enable".equals(mark)) {
+			// 路由到 灰度服务上
 			RibbonFilterContextHolder.getCurrentContext()
 				.add("host-mark", "gray-host");
 		} else {
+			// 路由到 正常的服务上
 			RibbonFilterContextHolder.getCurrentContext()
 				.add("host-mark", "running-host");
 		}

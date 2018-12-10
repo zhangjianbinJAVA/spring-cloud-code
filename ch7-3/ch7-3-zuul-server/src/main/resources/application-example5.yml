@@ -1,6 +1,7 @@
 
 ########################## 敏感头设置 ##########################
 
+## 请求路径  /pre/client/add?a=6&b=3  /client/add 服务controller 的路径
 zuul:
   prefix: /pre
   routes:

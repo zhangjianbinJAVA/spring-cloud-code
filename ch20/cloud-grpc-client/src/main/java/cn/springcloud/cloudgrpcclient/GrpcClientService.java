@@ -7,6 +7,7 @@ import io.grpc.Channel;
 
 import net.devh.springboot.autoconfigure.grpc.client.GrpcClient;
 import org.springframework.stereotype.Service;
+
 /**
  * emil:miles02@613.com
  * Created by forezp on 2018/8/11.
@@ -19,7 +20,9 @@ public class GrpcClientService {
     private Channel serverChannel;
 
     public String sendMessage(String name) {
+        // 创建一个阻塞的 stub
         SimpleGrpc.SimpleBlockingStub stub = SimpleGrpc.newBlockingStub(serverChannel);
+        // 调用 gRPC server
         HelloReply response = stub.sayHello(HelloRequest.newBuilder().setName(name).build());
         return response.getMessage();
     }

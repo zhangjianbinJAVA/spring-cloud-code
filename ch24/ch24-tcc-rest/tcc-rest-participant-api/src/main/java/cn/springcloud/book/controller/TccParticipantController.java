@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by caibosi on 2018-07-27.
+ * <p>
+ * 规范了事务参与者的  try cancel confirm 的 rest api
  */
 public abstract class TccParticipantController<T> {
 
@@ -58,11 +60,25 @@ public abstract class TccParticipantController<T> {
     }
 
 
+    /************** 具体接口由 交给业务实现 ****************************/
+
     public abstract String getParticipantName();
 
     public abstract ResponseEntity executeTry(String txId, T body);
 
+    /**
+     * 状态码：202
+     *
+     * @param txId
+     * @return
+     */
     public abstract ResponseEntity executeCancel(String txId);
 
+    /**
+     * 状态码：204
+     *
+     * @param txId
+     * @return
+     */
     public abstract ResponseEntity executeConfirm(String txId);
 }

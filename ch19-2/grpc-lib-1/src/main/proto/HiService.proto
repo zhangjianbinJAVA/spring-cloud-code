@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package cn.springcloud.grpc;
-
+//该选项为true时，生成的Java类将是包级别的，否则会在一个包装类中
 option java_multiple_files = true;
 
 message HelloRequest {
@@ -16,7 +16,7 @@ message HelloResponse {
     string greeting = 1;
 }
 
-
+//一元RPC 客户端向服务端发送单个请求并获取响应
 service HelloService {
     rpc hello(HelloRequest) returns (HelloResponse);
 }

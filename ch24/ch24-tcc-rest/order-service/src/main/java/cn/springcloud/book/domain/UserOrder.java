@@ -23,6 +23,9 @@ public class UserOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    /**
+     * 唯一索引，方便进行幂等操作处理
+     */
     private String txId;
 
     private String userId;

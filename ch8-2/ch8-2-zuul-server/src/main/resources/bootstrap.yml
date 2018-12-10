@@ -14,15 +14,21 @@ zuul:
     client-a:
       path: /client/**
       serviceId: client-a
+
 security:
   basic:
     enabled: false
+
   oauth2:
     client:
-      access-token-uri: http://localhost:7777/uaa/oauth/token #令牌端点
+      access-token-uri: http://localhost:7777/uaa/oauth/token #令牌端点 jwt token 的颁发
       user-authorization-uri: http://localhost:7777/uaa/oauth/authorize #授权端点
       client-id: zuul_server #OAuth2客户端ID
       client-secret: secret #OAuth2客户端密钥
     resource:
+      # jwt 密钥
       jwt:
         key-value: springcloud123 #使用对称加密方式，默认算法为HS256
+logging:
+  level:
+    org.springframework.cloud.security: debug

@@ -10,14 +10,15 @@ CONFIG_SERVER_HOST=localhost CONFIG_SERVER_PORT=8888 SERVER_PORT=8762 EUREKA_SER
 ## docker
 ```
 mvn clean package
-docker run -p 8761:8080 --rm \
+docker run -p 8761:8080  --rm \
 -e JAVA_OPTS='-server -Xmx1g' \
 -e PROFILE='default' \
 -e SERVER_PORT=8080 \
--e CONFIG_SERVER_HOST=192.168.99.100 \
+-e CONFIG_SERVER_HOST=192.168.179.117 \
 -e CONFIG_SERVER_PORT=8888 \
--e EUREKA_SERVER_HOST=192.168.99.100 \
+-e EUREKA_SERVER_HOST=192.168.179.117 \
 -e EUREKA_SERVER_PORT=8762 \
+--name eureka-server1 \
 registry.cn-hangzhou.aliyuncs.com/springcloud-cn/ch22-2-2-eureka-server:0.0.1-SNAPSHOT
 
 
@@ -25,9 +26,17 @@ docker run -p 8762:8080 --rm \
 -e JAVA_OPTS='-server -Xmx1g' \
 -e PROFILE='default' \
 -e SERVER_PORT=8080 \
--e CONFIG_SERVER_HOST=192.168.99.100 \
+-e CONFIG_SERVER_HOST=192.168.179.117 \
 -e CONFIG_SERVER_PORT=8888 \
--e EUREKA_SERVER_HOST=192.168.99.100 \
+-e EUREKA_SERVER_HOST=192.168.179.117 \
 -e EUREKA_SERVER_PORT=8761 \
+--name eureka-server2 \
 registry.cn-hangzhou.aliyuncs.com/springcloud-cn/ch22-2-2-eureka-server:0.0.1-SNAPSHOT
+```
+
+### test
+```
+http://192.168.179.117:8761/
+
+http://192.168.179.117:8762/
 ```

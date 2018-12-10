@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Primary注解的实例优先于其他实例被注入
+ * swagger 暂不支持 webflux 项目，所以要 实现 SwaggerResourcesProvider 类
+ *
  * @author xujin
+ * @Primary注解的实例优先于其他实例被注入
  */
 @Component
 @Primary
@@ -31,12 +33,16 @@ public class GatewaySwaggerProvider implements SwaggerResourcesProvider {
     public List<SwaggerResource> get() {
         List<SwaggerResource> resources = new ArrayList<>();
         List<String> routes = new ArrayList<>();
+
         //取出Spring Cloud Gateway中的route
         routeLocator.getRoutes().subscribe(route -> routes.add(route.getId()));
+
         //结合application.yml中的路由配置，只获取有效的route节点
         gatewayProperties.getRoutes().stream().filter(routeDefinition -> routes.contains(routeDefinition.getId()))
                 .forEach(routeDefinition -> routeDefinition.getPredicates().stream()
+                        // 路由前缀
                         .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
+                        // swagger 配置信息
                         .forEach(predicateDefinition -> resources.add(swaggerResource(routeDefinition.getId(),
                                 predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
                                         .replace("/**", API_URI)))));

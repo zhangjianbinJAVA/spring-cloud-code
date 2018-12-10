@@ -14,13 +14,15 @@ import cn.springcloud.book.common.vo.User;
 
 public class RestTemplateUserContextInterceptor implements ClientHttpRequestInterceptor {
 
-	@Override
-	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-			throws IOException {
-		User user = UserContextHolder.currentUser();
-		request.getHeaders().add("x-user-id",user.getUserId());
-		request.getHeaders().add("x-user-name",user.getUserName());
-		request.getHeaders().add("x-user-serviceName",request.getURI().getHost());
-		return execution.execute(request, body);
-	}
+    @Override
+    public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
+            throws IOException {
+        // 获取用户信息,用户信息放于请求头,传递给目标服务
+        User user = UserContextHolder.currentUser();
+
+        request.getHeaders().add("x-user-id", user.getUserId());
+        request.getHeaders().add("x-user-name", user.getUserName());
+        request.getHeaders().add("x-user-serviceName", request.getURI().getHost());
+        return execution.execute(request, body);
+    }
 }

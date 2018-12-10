@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * log 数据源的配置
+ * <p>
  * Created by caibosi on 2018-07-25.
  */
 @Configuration
@@ -27,9 +29,14 @@ import java.util.Map;
         transactionManagerRef = "transactionManager")
 public class LogDatasourceConfig {
 
+    /**
+     * 创建数据源
+     *
+     * @return
+     */
     @Bean(name = "logDatasource")
     @Qualifier("logDatasource")
-    @ConfigurationProperties(prefix="spring.jta.atomikos.datasource.log")
+    @ConfigurationProperties(prefix = "spring.jta.atomikos.datasource.log")
     public DataSource logDatasource() {
         return new AtomikosDataSourceBean();
     }
@@ -45,9 +52,10 @@ public class LogDatasourceConfig {
         jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.H2Dialect");
 
         Map<String, Object> properties = new HashMap<String, Object>();
+        //配置一个JtaPlatfom
         properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
         properties.put("javax.persistence.transactionType", "JTA");
-        properties.put("hibernate.hbm2ddl.auto","update");
+        properties.put("hibernate.hbm2ddl.auto", "update");
 
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setJtaDataSource(logDatasource());

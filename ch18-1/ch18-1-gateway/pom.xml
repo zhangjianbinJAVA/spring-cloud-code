@@ -24,6 +24,13 @@
     </properties>
 
     <dependencies>
+
+        <!--端点信息-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!-- Spring Cloud Gateway的依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

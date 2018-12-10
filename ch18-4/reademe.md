@@ -1,2 +1,2 @@
 ## Gateway Https
-https://localhost:8080/test-https
+https://127.0.0.1:8080/service-provider/test

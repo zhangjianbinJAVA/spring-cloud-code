@@ -26,6 +26,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
+		<!--groovy-->
 		<dependency>  
 	       <groupId>org.codehaus.groovy</groupId>  
 	       <artifactId>groovy-all</artifactId>  

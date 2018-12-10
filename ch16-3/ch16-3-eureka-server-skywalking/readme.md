@@ -1,0 +1,1 @@
+docker run -p 8761:8080 --name eureka-server -e JAVA_OPTS='-server -Xmx1g' -e PROFILE='default' -e SERVER_PORT=8080 -e SW_COLLECTOR_SERVERS=192.168.171.124:10800 -e SW_APPLICATION_CODE=eureka-server-sky zhangjianbin/spring-cloud/ch16-3-eureka-skywalking:1.0-SNAPSHOT

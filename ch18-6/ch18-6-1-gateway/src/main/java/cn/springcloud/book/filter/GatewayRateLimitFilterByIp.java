@@ -19,6 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 自定义过滤器进行限流
+ * <p>
+ * <p>
+ * 利用  Bucket4j 工具的令牌桶算法进行限流
+ *
  * @author xujin
  */
 public class GatewayRateLimitFilterByIp implements GatewayFilter, Ordered {
@@ -40,7 +44,7 @@ public class GatewayRateLimitFilterByIp implements GatewayFilter, Ordered {
      */
     int refillTokens;
     /**
-     *补充 Token 的时间间隔
+     * 补充 Token 的时间间隔
      */
     Duration refillDuration;
 
@@ -61,13 +65,19 @@ public class GatewayRateLimitFilterByIp implements GatewayFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        //获取 ip 地址
         String ip = exchange.getRequest().getRemoteAddress().getAddress().getHostAddress();
+
+        // computeIfAbsent 如果map里没有这个key，那么就按照后面的这个function添加对应的key和value
         Bucket bucket = LOCAL_CACHE.computeIfAbsent(ip, k -> createNewBucket());
-        log.debug("IP:{} ,令牌通可用的Token数量:{} " ,ip,bucket.getAvailableTokens());
+
+        log.debug("IP:{} ,令牌通可用的Token数量:{} ", ip, bucket.getAvailableTokens());
+
+        // tryConsume 尝试消费 1 个令牌，返回布尔值，表示能够消费或者不能够消费，给我们判断依据。
         if (bucket.tryConsume(1)) {
             return chain.filter(exchange);
         } else {
-           //当可用的令牌书为0是，进行限流返回429状态码
+            //当可用的令牌书为0是，进行限流返回429状态码
             exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
             return exchange.getResponse().setComplete();
         }

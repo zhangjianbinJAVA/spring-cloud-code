@@ -1,5 +1,6 @@
 package cn.springcloud.book.feign.config;
 
+import feign.Logger;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,4 +19,17 @@ public class CoreAutoConfiguration {
     public FeignRequestInterceptor charlesRequestInterceptor() {
         return new FeignRequestInterceptor();
     }
+
+    @Bean
+    public Logger.Level feignLog() {
+        return Logger.Level.FULL;
+    }
+
+    //@Bean
+    //public okhttp3.OkHttpClient okhttp(){
+    //    return new OkHttpClient()
+    //            .newBuilder()
+    //            .connectionPool(new ConnectionPool())
+    //            .build();
+    //}
 }

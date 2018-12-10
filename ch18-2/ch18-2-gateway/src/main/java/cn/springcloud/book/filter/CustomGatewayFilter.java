@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * 统计某个或者某种路由的的处理时长
+ *
  * @author xujin
  */
 public class CustomGatewayFilter implements GatewayFilter, Ordered {
@@ -19,12 +20,16 @@ public class CustomGatewayFilter implements GatewayFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // 定义请求开始时间
         exchange.getAttributes().put(COUNT_Start_TIME, System.currentTimeMillis());
+
         return chain.filter(exchange).then(
                 Mono.fromRunnable(() -> {
+                    // 获取请求时间
                     Long startTime = exchange.getAttribute(COUNT_Start_TIME);
-                    Long endTime=(System.currentTimeMillis() - startTime);
+                    Long endTime = (System.currentTimeMillis() - startTime);
                     if (startTime != null) {
+                        // 请求时长
                         log.info(exchange.getRequest().getURI().getRawPath() + ": " + endTime + "ms");
                     }
                 })

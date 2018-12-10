@@ -5,8 +5,8 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
-          lowerCaseServiceId: true
+          enabled: true # 与服务发现组件组合，进行路由
+          lowerCaseServiceId: true # 默认使用服务名大写路由，改配置为服务名写
 
 server:
   port: 9000  #网关服务监听 9000 端口
@@ -18,3 +18,11 @@ eureka:
 logging:
   level: #调整相关包的 log 级别，以便排查问题
     org.springframework.cloud.gateway: debug
+
+
+#开启actuator管理api，后面要关闭
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

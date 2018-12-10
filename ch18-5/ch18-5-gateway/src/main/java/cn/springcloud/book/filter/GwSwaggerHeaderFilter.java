@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 
+/**
+ * swagger 界面 缺少路由前缀
+ */
 @Component
 public class GwSwaggerHeaderFilter extends AbstractGatewayFilterFactory {
     private static final String HEADER_NAME = "X-Forwarded-Prefix";
@@ -21,6 +24,8 @@ public class GwSwaggerHeaderFilter extends AbstractGatewayFilterFactory {
                 return chain.filter(exchange);
             }
             String basePath = path.substring(0, path.lastIndexOf(GatewaySwaggerProvider.API_URI));
+
+            // 添加请求头，用于在swagger上添加路由前缀
             ServerHttpRequest newRequest = request.mutate().header(HEADER_NAME, basePath).build();
             ServerWebExchange newExchange = exchange.mutate().request(newRequest).build();
             return chain.filter(newExchange);

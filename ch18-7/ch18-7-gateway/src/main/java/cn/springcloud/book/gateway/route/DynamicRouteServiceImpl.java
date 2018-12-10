@@ -85,6 +85,7 @@ public class DynamicRouteServiceImpl implements ApplicationEventPublisherAware {
     }
 
     /**
+     *
      * spring:
      cloud:
      gateway:

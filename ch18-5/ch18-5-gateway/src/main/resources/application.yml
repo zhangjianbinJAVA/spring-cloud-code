@@ -14,7 +14,7 @@ spring:
           predicates:
           - Path=/admin/**
           filters:
-          - GwSwaggerHeaderFilter
+          - GwSwaggerHeaderFilter # 添加请求头，用于在swagger界面上显示路由前缀
           - StripPrefix=1
 
 eureka:

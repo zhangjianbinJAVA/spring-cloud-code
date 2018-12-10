@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: standalone
+
+  #告诉Jackson 空对象不要抛异常
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
@@ -8,6 +10,8 @@ eureka:
   server:
     use-read-only-response-cache: false
     response-cache-auto-expiration-in-seconds: 10
+
+# 暴露所有端点
 management:
   endpoints:
     web:

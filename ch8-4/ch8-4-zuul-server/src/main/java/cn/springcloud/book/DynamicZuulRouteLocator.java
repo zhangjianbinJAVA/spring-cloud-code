@@ -3,6 +3,8 @@ package cn.springcloud.book;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
@@ -14,41 +16,47 @@ import cn.springcloud.book.dao.PropertiesDao;
 
 public class DynamicZuulRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
 
-	@Autowired
-	private ZuulProperties properties;
+    private static final Logger log = LoggerFactory.getLogger(DynamicZuulRouteLocator.class);
 
-	@Autowired
-	private PropertiesDao propertiesDao;
+    @Autowired
+    private ZuulProperties properties;
 
-	public DynamicZuulRouteLocator(String servletPath, ZuulProperties properties) {
-		super(servletPath, properties);
-		this.properties = properties;
-	}
+    @Autowired
+    private PropertiesDao propertiesDao;
 
-	@Override
-	public void refresh() {
-		doRefresh();
-	}
+    public DynamicZuulRouteLocator(String servletPath, ZuulProperties properties) {
+        super(servletPath, properties);
+        this.properties = properties;
+    }
 
-	@Override
-	protected Map<String, ZuulRoute> locateRoutes() {
-		LinkedHashMap<String, ZuulRoute> routesMap = new LinkedHashMap<>();
-		routesMap.putAll(super.locateRoutes());
-		routesMap.putAll(propertiesDao.getProperties());
-		LinkedHashMap<String, ZuulRoute> values = new LinkedHashMap<>();
-		routesMap.forEach((key, value) -> {
-			String path = key;
-			if (!path.startsWith("/")) {
-				path = "/" + path;
-			}
-			if (StringUtils.hasText(this.properties.getPrefix())) {
-				path = this.properties.getPrefix() + path;
-				if (!path.startsWith("/")) {
-					path = "/" + path;
-				}
-			}
-			values.put(path, value);
-		});
-		return values;
-	}
+    @Override
+    public void refresh() {
+        doRefresh();
+    }
+
+    @Override
+    protected Map<String, ZuulRoute> locateRoutes() {
+        LinkedHashMap<String, ZuulRoute> routesMap = new LinkedHashMap<>();
+        routesMap.putAll(super.locateRoutes());
+        // 从数据库中加载路由信息
+        Map<String, ZuulRoute> dbZuulRoute = propertiesDao.getProperties();
+        log.info("dbZuulRoute:{}", dbZuulRoute);
+        routesMap.putAll(dbZuulRoute);
+
+        LinkedHashMap<String, ZuulRoute> values = new LinkedHashMap<>();
+        routesMap.forEach((key, value) -> {
+            String path = key;
+            if (!path.startsWith("/")) {
+                path = "/" + path;
+            }
+            if (StringUtils.hasText(this.properties.getPrefix())) {
+                path = this.properties.getPrefix() + path;
+                if (!path.startsWith("/")) {
+                    path = "/" + path;
+                }
+            }
+            values.put(path, value);
+        });
+        return values;
+    }
 }

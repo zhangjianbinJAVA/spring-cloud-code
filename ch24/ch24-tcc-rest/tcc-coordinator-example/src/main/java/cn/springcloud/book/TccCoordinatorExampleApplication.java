@@ -4,6 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * 演示 rest tcc 进行分布式事务管理
+ *
+ *
+ */
 @SpringBootApplication
 public class TccCoordinatorExampleApplication {
 
